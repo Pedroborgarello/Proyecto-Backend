@@ -38,4 +38,3 @@ app.get('/', (req, res) => {
 //         res.send(result.product);
 //     })
 // })
-

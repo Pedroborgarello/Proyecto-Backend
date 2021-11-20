@@ -18,7 +18,7 @@ class Container {
                 products.push(dataObj);
                 try {
                     await fs.promises.writeFile('./files/products.txt', JSON.stringify(products));
-                    return parseInt(dataObj.id)
+                    return { message: `product successfully, id: ${dataObj.id}`, id: parseInt(dataObj.id)}
                 } catch (err) {
                     return {
                         status: 'error', message: 'the product could not be created:' + err}
@@ -80,7 +80,7 @@ class Container {
 
     async deleteById(id) {
         try {
-            let data = await fs.promises.readFile('./files/products.txt', 'utf-8')
+            let data = await fs.promises.readFile('./files/products.txt', 'utf-8');
             let products = JSON.parse(data);
             let product = products.filter(prod => parseInt(prod.id) !== parseInt(id));
             await fs.promises.writeFile('./files/products.txt', JSON.stringify(product))

@@ -18,4 +18,27 @@ router.get('/:pid', (req, res) => {
     })
 })
 
+router.post('/', (req, res) => {
+    let body = req.body;
+    container.save(body).then(result => {
+        res.send(result.message);
+    })
+})
+
+router.put('/:pid', (req, res) => {
+    let id = req.params.pid;
+    let body = req.body;
+    container.deleteById(id);
+    container.save(body).then(result => {
+        res.send(result.message);
+    })
+})
+
+router.delete('/:pid', (req, res) => {
+    let id = parseInt(req.params.pid);
+    container.deleteById(id).then(result => {
+        res.send(result.message);
+    })
+})
+
 module.exports = router;
