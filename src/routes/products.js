@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
         res.send(result.message);
     })
 })
-
+/*
 router.put('/:pid', (req, res) => {
     let id = req.params.pid;
     let body = req.body;
@@ -33,9 +33,9 @@ router.put('/:pid', (req, res) => {
         res.send(result.message);
     })
 })
-
+*/
 router.delete('/:pid', (req, res) => {
-    let id = parseInt(req.params.pid);
+    let id = req.params.pid;
     container.deleteById(id).then(result => {
         res.send(result.message);
     })

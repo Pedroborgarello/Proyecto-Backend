@@ -83,8 +83,8 @@ class Container {
             let data = await fs.promises.readFile('./files/products.txt', 'utf-8');
             let products = JSON.parse(data);
             let product = products.filter(prod => parseInt(prod.id) !== parseInt(id));
-            await fs.promises.writeFile('./files/products.txt', JSON.stringify(product))
-            return { product: product, message: 'product removed successfully'}
+            await fs.promises.writeFile('./files/products.txt', JSON.stringify(product));
+            return { product: product, message: 'product removed successfully' }
         } catch (err) {
             return { status: 'error', message: 'the product was not found' }
         }
