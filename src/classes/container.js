@@ -77,6 +77,24 @@ class Container {
             return { status: 'error', message: 'no products found'}
         }
     }
+    async upgradeById(id, body) {
+        let dataObj = {
+            id: id,
+            title: body.title,
+            price: body.price,
+            thumbnail: body.thumbnail
+        }
+        try {
+            let data = await fs.promises.readFile('./files/products.txt', 'utf-8');
+            let products = JSON.parse(data);
+            let product = products.filter(prod => parseInt(prod.id) !== parseInt(id));
+            product.push(dataObj);
+            await fs.promises.writeFile('./files/products.txt', JSON.stringify(product));
+            return { product: product, message: 'product upgrade successfully' }
+        } catch (err) {
+            return { status: 'error', message: 'the product was not found' }
+        }
+    }
 
     async deleteById(id) {
         try {
