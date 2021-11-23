@@ -1,4 +1,6 @@
 const express = require('express');
+const cors = require('cors');
+// const multer = requiere('multer');
 const Container = require('./classes/container');
 
 const app = express();
@@ -10,31 +12,28 @@ const server = app.listen(PORT, () => {
 
 const container = new Container();
 const prodRouter = require('./routes/products');
+/*const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, 'public')
+    },
+    filename: function (req, file, cb){
+        cb(null, Date.now() + file.originalname)
+    }
+})
+const upload = multer({storage:storage});
+*/
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
+app.use(cors());
 app.use('/api/products', prodRouter);
 
 app.get('/', (req, res) => {
     res.send('<h1>hola mundo</h1>');
 })
-
-// app.get('/api/products/:pid', (req, res) => {
-//     let id = req.params.pid;
-//     id = parseInt(id);
-//     container.getById(id).then(result => {
-//         res.send(result.product);
-//     })
-// })
-
-// app.get('/products', (req, res) => {
-//     container.getAll().then(result => {
-//         res.send(result.product);
-//     })
-// })
-
-// app.get('/randomProduct', (req, res) => {
-//     container.getRandom().then(result => {
-//         res.send(result.product);
-//     })
-// })
+/*
+app.post('/api/uploadfile', upload.single('file'), (req, res) => {
+    const files = req.files;
+    if (!files || files.length === 0) {
+        res.status(500).send({message: 'no se envio el archivo'})
+    }
+})*/
