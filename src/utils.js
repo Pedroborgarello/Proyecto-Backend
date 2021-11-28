@@ -8,4 +8,4 @@ function makeId(length) {
     return result;
 }
 
-module.exports = makeId;
+export default makeId;

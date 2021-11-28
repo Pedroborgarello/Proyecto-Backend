@@ -1,0 +1,9 @@
+<div class="product">
+    {{#each products}}
+    <div class="productCard">
+        <p>{{this.title}}</p>
+        <p>{{this.price}}</p>
+        <img src="{{this.thumbnail}}" alt="image {{this.title}}">
+    </div>
+    {{/each}}
+</div>

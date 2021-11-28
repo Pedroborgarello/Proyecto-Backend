@@ -1,12 +1,12 @@
-const express = require('express');
+import express from 'express';
+import Container from '../classes/container.js';
 const router = express.Router();
 
-const Container = require('../classes/container');
 const container = new Container();
 
 router.get('/', (req,res) => {
     container.getAll().then(result => {
-        res.send(result.product);
+        res.send(result);
     })
 })
 
@@ -40,4 +40,4 @@ router.delete('/:pid', (req, res) => {
     })
 })
 
-module.exports = router;
+export default router;
