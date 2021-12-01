@@ -53,7 +53,7 @@ app.post('/api/uploadfile', upload.fields([
     }
     res.send(files);
 })
-app.get('view/products', (req, res) => {
+app.get('/view/products', (req, res) => {
     container.getAll().then(result => {
         let info = result.product;
         let dataObject = {
