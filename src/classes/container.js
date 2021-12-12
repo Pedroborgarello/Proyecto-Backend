@@ -1,11 +1,26 @@
 import fs from 'fs';
-import makeId from '../utils.js';
+// import makeId from '..utils.js';
 // const makeId = require('../utils')
+import __dirname from '../utils.js';
+
+
+const productsURL = __dirname+'/files/products.txt';
+
+function makeId(length) {
+    let result = '';
+    let characters = '0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 
 class Container {
     async save(product) {
         try{
-            let data = await fs.promises.readFile('./files/products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             if (products.some(prod => prod.title.toLowerCase() === product.title.toLowerCase())) {
                 return { status: 'error', message: 'the product already exists'}
@@ -18,8 +33,8 @@ class Container {
                 }
                 products.push(dataObj);
                 try {
-                    await fs.promises.writeFile('./files/products.txt', JSON.stringify(products));
-                    return { message: `product successfully, id: ${dataObj.id}`, id: parseInt(dataObj.id)}
+                    await fs.promises.writeFile(productsURL, JSON.stringify(products));
+                    return { status: 'success', message: `product successfully, id: ${dataObj.id}`, id: parseInt(dataObj.id)}
                 } catch (err) {
                     return {
                         status: 'error', message: 'the product could not be created:' + err}
@@ -33,7 +48,7 @@ class Container {
                 thumbnail: product.thumbnail
             }
             try {
-                await fs.promises.writeFile('./files/products.txt', JSON.stringify([dataObj]))
+                await fs.promises.writeFile(productsURL, JSON.stringify([dataObj]))
                 return parseInt(dataObj.id)
             } catch (err) {
                 return { status: 'error', message: 'the product could not be created:' + err}
@@ -43,7 +58,7 @@ class Container {
 
     async getById(id) {
         try {
-            let data = await fs.promises.readFile('./files/products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             let product = products.find(prod => parseInt(prod.id) === parseInt(id))
             if (product) {
@@ -58,7 +73,7 @@ class Container {
 
     async getRandom() {
         try {
-            let data = await fs.promises.readFile('./files/products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             let quantityProducts = products.length;
             let randomIndex = Math.floor(Math.random() * quantityProducts);
@@ -71,7 +86,7 @@ class Container {
 
     async getAll() {
         try {
-            let data = await fs.promises.readFile('./files/products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             return { product: products }
         } catch (err) {
@@ -86,11 +101,11 @@ class Container {
             thumbnail: body.thumbnail
         }
         try {
-            let data = await fs.promises.readFile('./files/products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             let product = products.filter(prod => parseInt(prod.id) !== parseInt(id));
             product.push(dataObj);
-            await fs.promises.writeFile('./files/products.txt', JSON.stringify(product));
+            await fs.promises.writeFile(productsURL, JSON.stringify(product));
             return { product: product, message: 'product upgrade successfully' }
         } catch (err) {
             return { status: 'error', message: 'the product was not found' }
@@ -99,10 +114,10 @@ class Container {
 
     async deleteById(id) {
         try {
-            let data = await fs.promises.readFile('./files/products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             let product = products.filter(prod => parseInt(prod.id) !== parseInt(id));
-            await fs.promises.writeFile('./files/products.txt', JSON.stringify(product));
+            await fs.promises.writeFile(productsURL, JSON.stringify(product));
             return { product: product, message: 'product removed successfully' }
         } catch (err) {
             return { status: 'error', message: 'the product was not found' }
@@ -112,7 +127,7 @@ class Container {
     async deleteAll() {
         try {
             let deleteAll = [];
-            await fs.promises.writeFile('./files/products.txt', JSON.stringify(deleteAll))
+            await fs.promises.writeFile(productsURL, JSON.stringify(deleteAll))
             return { message: 'products removed successfully'}
         } catch (err) {
             return { message: 'action could not be completed'}

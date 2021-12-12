@@ -1,11 +1,19 @@
-function makeId(length) {
-    let result = '';
-    let characters = '0123456789';
-    let charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
+// function makeId(length) {
+//     let result = '';
+//     let characters = '0123456789';
+//     let charactersLength = characters.length;
+//     for (let i = 0; i < length; i++) {
+//         result += characters.charAt(Math.floor(Math.random() * charactersLength));
+//     }
+//     return result;
+// }
 
-export default makeId;
+// export default makeId;
+
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(filename);
+
+export default __dirname;

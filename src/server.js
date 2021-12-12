@@ -3,10 +3,11 @@ import {engine} from 'express-handlebars';
 import cors from 'cors';
 import Container from './classes/container.js';
 import prodRouter from './routes/products.js';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
 import upload from './uploader.js';
-// const multer = requiere('multer');
+import __dirname from './utils.js'
+import {Server} from 'socket.io';
+
+
 
 const app = express();
 const PORT = process.env.PORT||8080;
@@ -15,16 +16,16 @@ const server = app.listen(PORT, () => {
     console.log('Server listening on: ' + PORT)
 })
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export const io = new Server(server);
+
 
 app.engine('handlebars', engine());
-app.set('views', './views');
+app.set('views', __dirname+'/views');
 app.set('view engine', 'handlebars');
 
 const container = new Container();
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors());
@@ -53,6 +54,7 @@ app.post('/api/uploadfile', upload.fields([
     }
     res.send(files);
 })
+
 app.get('/view/products', (req, res) => {
     container.getAll().then(result => {
         let info = result.product;
@@ -61,4 +63,10 @@ app.get('/view/products', (req, res) => {
         }
         res.render('products', dataObject)
     })
+})
+
+io.on('connection', async socket => {
+    console.log(`socket ${socket.id} se ha conectado`);
+    let products = await container.getAll();
+    socket.emit('update', products);
 })

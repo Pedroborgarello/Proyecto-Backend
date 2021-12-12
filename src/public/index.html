@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+        integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Curso Backend</title>
 </head>
 <body>
@@ -16,11 +19,16 @@
             <input name="price" type="number" required>
             <label for="thumbnail">thumbnail</label>
             <input name="thumbnail" type="text" required>
-            <button type="submit">sumbit</button>
+            <input type="submit">
         </form>
     </div>
     <input type="button" onclick="location.href='/view/products'" value="productos">
-    
+
+    <h1>tabla de productos</h1>
+    <div>
+        <div id="tableProducts" class="product"></div>
+    </div>    
+    <script src="/socket.io/socket.io.js"></script>
     <script text="text/javascript" src="app.js"></script>
 </body>
 </html>

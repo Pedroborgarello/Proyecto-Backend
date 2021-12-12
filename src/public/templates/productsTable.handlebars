@@ -1,10 +1,9 @@
-<div class="product">
-    {{#each products}}
+{{#if products}}
+{{#each products}}
     <div class="productCard">
         <img src="{{this.thumbnail}}" alt="image {{this.title}}" width="200">
         <p>{{this.title}}</p>
         <p>${{this.price}}</p>
     </div>
-    {{/each}}
-    <input type="button" onclick="location.href='/'" value="home">
-</div>
+{{/each}}
+{{/if}}

@@ -1,9 +1,9 @@
 import multer from 'multer';
-import dirname from 'path';
+import __dirname from './utils.js';
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         if (file.fieldname === "image") {
-            cb(null, dirname + '/../public/images');
+            cb(null, __dirname + '/public/images');
         }
     },
     filename: (req, file, cb) => {

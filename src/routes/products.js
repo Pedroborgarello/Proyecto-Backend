@@ -1,5 +1,9 @@
 import express from 'express';
 import Container from '../classes/container.js';
+import upload from '../uploader.js'
+import { io } from '../server.js'
+
+
 const router = express.Router();
 
 const container = new Container();
@@ -18,10 +22,18 @@ router.get('/:pid', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+router.post('/',upload.single('image'), (req, res) => {
+    let file = req.file;
     let body = req.body;
+    body.thumbnail = req.protocol+"://"+req.hostname+":8080"+'/images/'+file.filename;
     container.save(body).then(result => {
         res.send(result.message);
+        
+        if (result.status === "success") {
+            container.getAll().then(result => {
+                io.emit('update', result)
+            })
+        }
     })
 })
 
